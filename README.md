@@ -23,7 +23,7 @@ API with cars characteristics
 3. To stop all services use
 
    ```bash
-   docker-compose rm -f
+   docker-compose stop
    ```      
    
    
