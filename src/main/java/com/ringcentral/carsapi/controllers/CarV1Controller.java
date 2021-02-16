@@ -31,7 +31,7 @@ public class CarV1Controller {
     }
 
     @GetMapping("/paged")
-    public ResponseEntity<Page<CarV1InfoDto>> getCarsPaged(@PageableDefault(sort = { "model" }, direction = Sort.Direction.ASC) Pageable pageable) {
+    public ResponseEntity<Page<CarV1InfoDto>> getCarsPaged(@PageableDefault(sort = { "title" }, direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(carService.getCars(pageable));
     }
 
