@@ -1,7 +1,8 @@
 package com.ringcentral.carsapi.controllers;
 
-import com.ringcentral.carsapi.dtos.CountryDto;
-import com.ringcentral.carsapi.services.CountryService;
+import com.ringcentral.carsapi.dtos.CarV2Dto;
+import com.ringcentral.carsapi.dtos.CarV2InfoDto;
+import com.ringcentral.carsapi.services.CarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,27 +19,27 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v2/countries")
+@RequestMapping("/api/v2/cars")
 @RequiredArgsConstructor
-public class CountryController {
+public class CarV2Controller {
 
-    private final CountryService countryService;
+    private final CarService carService;
 
     @GetMapping
-    public ResponseEntity<List<CountryDto>> getBrands() {
-        return ResponseEntity.ok(countryService.getCountries());
+    public ResponseEntity<List<CarV2InfoDto>> getCars() {
+        return ResponseEntity.ok(carService.getCarsV2());
     }
 
     @GetMapping("/paged")
-    public ResponseEntity<Page<CountryDto>> getCountriesPaged(@PageableDefault(sort = { "title" }, direction = Sort.Direction.ASC)Pageable pageable){
-        return ResponseEntity.ok(countryService.getCountries(pageable));
+    public ResponseEntity<Page<CarV2InfoDto>> getCarsPaged(@PageableDefault(sort = { "title" }, direction = Sort.Direction.ASC) Pageable pageable) {
+        return ResponseEntity.ok(carService.getCarsV2(pageable));
     }
 
-    @GetMapping("/{countryId}")
-    public ResponseEntity<CountryDto> getCountry(@PathVariable Integer countryId) {
-        return countryService.getCountry(countryId)
+    @GetMapping("/{carId}")
+    public ResponseEntity<CarV2Dto> getCar(@PathVariable Integer carId) {
+        return carService.getCarV2(carId)
             .map(ResponseEntity::ok).orElseThrow(() -> {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found");
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car not found");
             });
     }
 }

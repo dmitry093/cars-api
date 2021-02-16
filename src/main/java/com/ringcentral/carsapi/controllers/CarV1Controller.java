@@ -27,17 +27,17 @@ public class CarV1Controller {
 
     @GetMapping
     public ResponseEntity<List<CarV1InfoDto>> getCars() {
-        return ResponseEntity.ok(carService.getCars());
+        return ResponseEntity.ok(carService.getCarsV1());
     }
 
     @GetMapping("/paged")
     public ResponseEntity<Page<CarV1InfoDto>> getCarsPaged(@PageableDefault(sort = { "title" }, direction = Sort.Direction.ASC) Pageable pageable) {
-        return ResponseEntity.ok(carService.getCars(pageable));
+        return ResponseEntity.ok(carService.getCarsV1(pageable));
     }
 
     @GetMapping("/{carId}")
     public ResponseEntity<CarV1Dto> getCar(@PathVariable Integer carId) {
-        return carService.getCar(carId)
+        return carService.getCarV1(carId)
             .map(ResponseEntity::ok).orElseThrow(() -> {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car not found");
             });
