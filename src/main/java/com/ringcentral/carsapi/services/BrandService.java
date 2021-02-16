@@ -8,7 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
@@ -25,5 +28,11 @@ public class BrandService {
 
     public Page<BrandDto> getBrands(Pageable pageable) {
         return brandRepository.findAll(pageable).map(BrandService::toDto);
+    }
+
+    public List<BrandDto> getBrands() {
+        return StreamSupport.stream(brandRepository.findAll().spliterator(), false)
+            .map(BrandService::toDto)
+            .collect(Collectors.toList());
     }
 }

@@ -1,7 +1,8 @@
 package com.ringcentral.carsapi.controllers;
 
-import com.ringcentral.carsapi.dtos.BrandDto;
-import com.ringcentral.carsapi.services.BrandService;
+import com.ringcentral.carsapi.dtos.CarV1Dto;
+import com.ringcentral.carsapi.dtos.CarV1InfoDto;
+import com.ringcentral.carsapi.services.CarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,27 +19,27 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/brands")
+@RequestMapping("/api/v1/cars")
 @RequiredArgsConstructor
-public class BrandController {
+public class CarV1Controller {
 
-    private final BrandService brandService;
+    private final CarService carService;
 
     @GetMapping
-    public ResponseEntity<List<BrandDto>> getBrands() {
-        return ResponseEntity.ok(brandService.getBrands());
+    public ResponseEntity<List<CarV1InfoDto>> getCars() {
+        return ResponseEntity.ok(carService.getCars());
     }
 
     @GetMapping("/paged")
-    public ResponseEntity<Page<BrandDto>> getBrandsPaged(@PageableDefault(sort = { "country" }, direction = Sort.Direction.ASC) Pageable pageable) {
-        return ResponseEntity.ok(brandService.getBrands(pageable));
+    public ResponseEntity<Page<CarV1InfoDto>> getCarsPaged(@PageableDefault(sort = { "model" }, direction = Sort.Direction.ASC) Pageable pageable) {
+        return ResponseEntity.ok(carService.getCars(pageable));
     }
 
-    @GetMapping("/{brandId}")
-    public ResponseEntity<BrandDto> getBrand(@PathVariable Integer brandId) {
-        return brandService.getBrand(brandId)
+    @GetMapping("/{carId}")
+    public ResponseEntity<CarV1Dto> getCar(@PathVariable Integer carId) {
+        return carService.getCar(carId)
             .map(ResponseEntity::ok).orElseThrow(() -> {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Brand not found");
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car not found");
             });
     }
 }
